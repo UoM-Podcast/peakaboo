@@ -1,8 +1,9 @@
-mkdirp = Meteor.npmRequire 'mkdirp'
-Busboy = Meteor.npmRequire 'busboy'
+mkdirp = Npm.require 'mkdirp'
+Busboy = Npm.require 'busboy'
 fs = Npm.require 'fs'
 os = Npm.require 'os'
 path = Npm.require 'path'
+cookie = Npm.require 'cookie'
 
 Router.route '/image/:roomId',
   name: 'image'
@@ -57,7 +58,8 @@ Router.route '/image/:roomId/:imageType(galicaster|presentation|presenter)',
   where: 'server'
 .get ->
   # get hashed login token from client cookie
-  user = getUserFromToken @request.cookies.meteor_login_token
+  cookies = cookie.parse @request.headers.cookie
+  user = getUserFromToken cookies.meteor_login_token
 
   if user and isUserAuthorised user._id, [
     'admin', 'view-rooms', 'control-rooms'

@@ -1,4 +1,4 @@
-Connection = Meteor.npmRequire 'ssh2'
+Connection = Npm.require 'ssh2'
 xml2js.parseStringSync = Meteor.wrapAsync xml2js.parseString
 
 sshExec = (id, command, action, callback) ->

@@ -1,4 +1,1 @@
-FROM meteorhacks/meteord
-
-COPY .docker/startpeakaboo /opt/meteord/
-ENTRYPOINT /opt/meteord/startpeakaboo
+FROM jshimko/meteor-launchpad:v2.3.0

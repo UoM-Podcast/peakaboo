@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Example docker run script
+#
+# Copy and replace ___ values below, ensure no spaces exist in METEOR_SETTINGS JSON
+# Property descriptions:
+#   METEOR_SETTINGS
+#     auth.username and auth.password - credentials for SSH access by peakaboo to capture agent (to trigger software restart / agent reboot)
+#     imageDir - directory to store temporary image files pushed from capture agent
+#     ldap - LDAP settings (used if logins.ldap is set to be active)
+#     logins.password - enable/disable local account logins
+#     logins.ldap - enable/disable ldap authentication
+#     logins.cas - enable/disable cas authentication
+#     cas - CAS settings (used if logins.cas is set to be active)
+#     public.cas - additional CAS settings
+#  SERVER_NAME - FQDN of server running peakaboo
+
+sudo \
+METEOR_SETTINGS="{\"auth\":{\"username\":\"___\",\"password\":\"___\"},\"imageDir\":\"/tmp/peakaboo-image\",\"ldap\":{\"url\":\"___\",\"baseDN\":\"___\",\"username\":\"___\",\"password\":\"___\",\"attributes\":{\"user\":[\"cn\",\"displayName\",\"givenName\",\"mail\",\"memberOf\"]}},\"cas\":{\"active\":true,\"baseUrl\":\"___\",\"autoClose\":true},\"public\":{\"cas\":{\"loginUrl\":\"___\",\"serviceParam\":\"service\",\"popupWidth\":810,\"popupHeight\":610}},\"logins\":{\"password\":{\"active\":true},\"ldap\":{\"active\":true},\"cas\":{\"active\":false}}}" \
+SERVER_NAME=___ \
+docker-compose up -d

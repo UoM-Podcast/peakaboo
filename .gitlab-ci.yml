@@ -1,0 +1,18 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN "$CI_REGISTRY"
+  - echo $CI_COMMIT_REF_NAME > VERSIONS
+  - echo $CI_COMMIT_SHA >> VERSIONS
+
+build:
+  stage: build
+  script:
+    - docker build --build-arg https_proxy="$HTTPS_PROXY" -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG

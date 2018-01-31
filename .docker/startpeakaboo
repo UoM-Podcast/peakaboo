@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export ROOT_URL=https://${SERVER_NAME}
-bash /opt/meteord/run_app.sh

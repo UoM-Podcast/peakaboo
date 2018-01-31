@@ -10,7 +10,7 @@ Package.onUse(function(api){
 	api.versionsFrom('METEOR@0.9.4');
 
 	Npm.depends({
-		"activedirectory": "0.5.1"
+		"activedirectory": "0.7.2"
 	});
 
 	api.use([
@@ -18,10 +18,6 @@ Package.onUse(function(api){
 		'accounts-base',
 		// 'krt:core@0.1.0'
 	], ['client', 'server']);
-
-	api.use([
-		'meteorhacks:npm@1.2.0'
-	], 'server');
 
 	api.imply([
 		'accounts-base'

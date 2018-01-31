@@ -1,7 +1,12 @@
-.git
+.assets
+.capture_plugins
+.git/*
+!.git/HEAD
+!.git/refs
 .meteor/local
 .assets
 log
+node_modules
 config
 tmp
 .docker/mongo

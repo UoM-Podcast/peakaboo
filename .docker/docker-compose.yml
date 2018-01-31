@@ -3,7 +3,8 @@ peakaboo:
   environment:
     - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
     - MONGO_OPLOG_URL=mongodb://peakabooMongo:27017/local
-    - SERVER_NAME
+    - ROOT_URL=https://${SERVER_NAME}
+    - STARTUP_DELAY=10
     - METEOR_SETTINGS
   links:
     - peakabooMongo

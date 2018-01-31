@@ -1,0 +1,32 @@
+{
+   "auth":{
+      "username":"galicaster",
+      "password":"galicaster"
+   },
+   "imageDir":"/tmp/peakaboo-image",
+   "caTimeout":"600",
+   "cas":{
+      "active":true,
+      "emailsuffix":"@example.com",
+      "baseUrl":"https://example.com/cas/",
+      "autoClose":true
+   },
+   "public":{
+      "applicationName":"Peakaboo",
+      "audioServer": false,
+      "cas":{
+         "loginUrl":"https://example.com/cas/login",
+         "serviceParam":"service",
+         "popupWidth":810,
+         "popupHeight":610
+      }
+   },
+   "logins":{
+      "cas":{
+         "active":false
+      },
+      "ldap":{
+         "active":false
+      }
+   }
+}
