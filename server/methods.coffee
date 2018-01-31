@@ -107,3 +107,17 @@ Meteor.methods
     allControlUser = Meteor.settings.cas.ControlUsers
     if Meteor.user().username in allControlUser
       Roles.addUsersToRoles(Meteor.user(), ['control-rooms'])
+
+  setGroupUsers: () ->
+    allGroupUser = Meteor.settings.group
+    for own group, user of allGroupUser
+      if Meteor.user().username in user
+        Roles.addUsersToRoles(Meteor.user(), [group])
+
+  getGroups: () ->
+    allGroups = []
+    allGroupUser = Meteor.settings.group
+    for own group, user of allGroupUser
+      allGroups.push group
+
+    allGroups

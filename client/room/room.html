@@ -1,6 +1,22 @@
 <template name="room_nav">
   <ul class="nav nav-pills">
     <li class="{{#if controls}}active{{/if}}"><a href="{{pathFor 'room_controls' _id=room._id}}" class="room_tab">Controls</a></li>
+    <a id="peakaboo-remove-btn" title="Remove room" class="btn btn-danger room_tab" data-toggle="modal" data-target=".warn-modal-remove"><i class="glyphicon glyphicon-remove"></i> Remove Room</a>
+    <div class="modal fade warn-modal-remove">
+      <div class="modal-dialog">
+        <div class="modal-content panel-danger">
+          <div class="modal-header panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></button>
+            <h4 class="modal-title"><strong>Warning: Removing Room</strong></h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <a id="peakaboo-remove-room" type="button" class="btn btn-danger {{#if removeLocked}}{{else}}peakaboo-locked{{/if}}" href="{{#if removeLocked}}/{{else}}#{{/if}}">OK</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- <li class="{{#if repository}}active{{/if}}"><a href="{{pathFor 'room_repository' _id=room._id}}" class="room_tab">Repository</a></li> -->
   </ul>
   <hr>
@@ -50,6 +66,9 @@
                 </tr>
                 <tr>
                   <td>IP</td><td>{{ip}}</td>
+                </tr>
+                <tr>
+                  <td>Group</td><td>{{supportGroup}}</td>
                 </tr>
               </tbody>
             </table>

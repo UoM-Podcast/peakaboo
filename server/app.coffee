@@ -3,21 +3,6 @@ Meteor.startup ->
     console.log 'creating test users'
 
     users = [
-      email: 'admin@example.com'
-      password: 'admin'
-      name: 'Admin'
-      roles: ['admin']
-    ,
-      email: 'view@example.com'
-      password: 'view'
-      name: 'View'
-      roles: ['view-rooms']
-    ,
-      email: 'control@example.com'
-      password: 'control'
-      name: 'Control'
-      roles: ['control-rooms']
-    ,
       email: 'galicaster@example.com'
       password: 'galicaster'
       name: 'Galicaster'

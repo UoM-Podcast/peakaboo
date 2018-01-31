@@ -122,3 +122,8 @@ audio {
   height: 1em;
   margin-right: 8px;
 }
+
+#peakaboo-remove-btn {
+  margin-left: 10px;
+  padding: 9px;
+}

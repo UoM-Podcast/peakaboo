@@ -34,6 +34,7 @@ Template.signin.events
             Meteor.call 'getViewOnlyUsers', () ->
             Meteor.call 'getAdminUsers', () ->
             Meteor.call 'getControlUsers', () ->
+            Meteor.call 'setGroupUsers', () ->
             go = Session.get('go') or '/'
             Session.set 'go', null
             Router.go go

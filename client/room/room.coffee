@@ -1,3 +1,19 @@
+Template.room_nav.events
+  'click #peakaboo-remove-btn': (e, template) ->
+    if isUserAuthorised Meteor.userId(), ['admin']
+      Session.setTemp 'removeLocked', true
+  'click #peakaboo-remove-room': (e, template) ->
+    removeBtn = $(e.currentTarget)
+    if removeBtn.hasClass 'peakaboo-locked'
+      fireAnim(removeBtn, 'shake')
+    if isUserAuthorised Meteor.userId(), ['admin']
+      room = template.data.room
+      Rooms.remove room._id
+
+Template.room_nav.helpers
+  'removeLocked': ->
+    Session.get 'removeLocked'
+
 Template.room_controls.events
   'click .peakaboo-command': (e) ->
     unsetCommandError()
