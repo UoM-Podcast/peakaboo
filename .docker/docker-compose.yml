@@ -2,23 +2,11 @@ peakaboo:
   build: ..
   environment:
     - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
-    - MONGO_OPLOG_URL=mongodb://peakabooMongo:27017/local
     - ROOT_URL=https://${SERVER_NAME}
     - STARTUP_DELAY=10
     - METEOR_SETTINGS
   links:
     - peakabooMongo
-  restart: on-failure
-
-peakabooMongo:
-  image: mongo:3
-  entrypoint: [ "/usr/bin/mongod",
-                "--replSet", "peakaboo",
-                "--oplogSize", "128",
-                "--storageEngine", "wiredTiger",
-                "--smallfiles" ]
-  volumes:
-    - ./mongo/db:/data/db
   restart: on-failure
 
 peakabooMongoSetup:
@@ -28,6 +16,14 @@ peakabooMongoSetup:
   volumes:
     - ./mongo:/scripts:ro
   entrypoint: [ "/scripts/setupmongo" ]
+
+peakabooMongo:
+  image: mongo:3
+  volumes:
+    - ./mongo/db:/data/db
+  restart: on-failure
+  ports:
+    - "27017:27017"
 
 peakabooNginx:
   image: nginx

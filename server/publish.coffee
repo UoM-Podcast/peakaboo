@@ -13,7 +13,7 @@ Meteor.publish 'RoomsDisplay', (filters, vumeter) ->
           when 'loud' then query['$or'].push vumeter: $gte: 5
           when 'offline' then query['$or'].push offline: true
           when 'online' then query['$or'].push offline: false
-          when 'camAvailable' then query['$or'].push camAvailable: 0
+          when 'camAvailable' then query['$or'].push camAvailable: 1
       unless query['$or'].length then query = {}
     Counts.publish @, 'offline', Rooms.find(offline: true), noReady: true
     Counts.publish @, 'paused', Rooms.find(paused: true), noReady: true

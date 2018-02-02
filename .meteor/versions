@@ -57,6 +57,7 @@ localstorage@1.2.0
 logging@1.1.19
 meteor@1.8.2
 meteor-platform@1.2.6
+meteorhacks:async@1.0.0
 minifier-css@1.2.16
 minifier-js@2.2.2
 minimongo@1.4.3
@@ -79,7 +80,6 @@ peerlibrary:xml2js@0.4.8_1
 pmgration:bootstrap-slider@1.0.0
 pmgration:ladda-bootstrap@1.0.0
 ppettit:accounts-ldap@0.1.0
-ppettit:versions@0.0.1
 promise@0.10.0
 random@1.0.10
 rate-limit@1.0.8
