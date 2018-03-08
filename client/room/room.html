@@ -33,7 +33,9 @@
         </div>
         <div class="panel-body">
           <a href="#" class="thumbnail">
-            <img src="{{thumbnail}}">
+            {{#if thumbnail}}
+            <img src="{{thumbnail}}">{{else}}<video data-dashjs-player autoplay src="/dash/{{displayName}}/index.mpd" controls></video>
+            {{/if}}
           </a>
         </div>
       </div>

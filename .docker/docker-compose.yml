@@ -25,8 +25,8 @@ peakabooMongo:
   ports:
     - "27017:27017"
 
-peakabooNginx:
-  image: nginx
+peakaboonginx:
+  build: https://github.com/androidwiltron/nginx-rtmp-docker.git
   command: /scripts/startnginx
   environment:
     - SERVER_NAME
@@ -38,4 +38,5 @@ peakabooNginx:
   ports:
     - "80:80"
     - "443:443"
+    - "1935:1935"
   restart: on-failure

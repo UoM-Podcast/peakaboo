@@ -97,9 +97,13 @@ Template.registerHelper 'thumbnail', ->
       file = 'presenter'
     when 'view-galicaster'
       file = 'galicaster'
+    when 'view-livestream'
+      file = 'livestream'
 
   if images?[file]
     "/image/#{roomId}/#{file}?#{timestamp}"
+  else if file == 'livestream'
+    return false
   else
     '/images/no_image_available.png'
 

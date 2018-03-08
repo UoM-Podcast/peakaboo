@@ -55,6 +55,7 @@ Template.room_controls.rendered = ->
   Session.setTemp 'audioLocked', true
   Session.setTemp 'controlsLocked', true
   Session.setTemp 'audioStreaming', false
+  $.getScript("https://cdn.dashjs.org/latest/dash.all.min.js");
   @autorun =>
     offline = Template.currentData().room.offline
     resizePanelTitle @
