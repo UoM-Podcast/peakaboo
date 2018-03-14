@@ -5,7 +5,6 @@
 
 standard-app-packages
 coffeescript
-accounts-password@1.5.0
 u2622:persistent-session
 iron:router
 mrt:moment
@@ -30,3 +29,5 @@ meteorhacks:async
 fortawesome:fontawesome
 twbs:bootstrap
 elie:bootflat
+npm-bcrypt
+accounts-password

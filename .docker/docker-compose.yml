@@ -1,42 +1,170 @@
-peakaboo:
-  build: ..
-  environment:
-    - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
-    - ROOT_URL=https://${SERVER_NAME}
-    - STARTUP_DELAY=10
-    - METEOR_SETTINGS
-  links:
-    - peakabooMongo
-  restart: on-failure
+version: "2"
+services:
 
-peakabooMongoSetup:
-  image: mongo:3
-  links:
-    - peakabooMongo
-  volumes:
-    - ./mongo:/scripts:ro
-  entrypoint: [ "/scripts/setupmongo" ]
+  peakaboo:
+    build: ..
+    environment:
+      - MONGO_URL=mongodb://mongos1:27017/peakaboo
+      - ROOT_URL=https://${SERVER_NAME}
+      - STARTUP_DELAY=10
+      - METEOR_SETTINGS
+    links:
+      - mongos1
+    restart: on-failure
 
-peakabooMongo:
-  image: mongo:3
-  volumes:
-    - ./mongo/db:/data/db
-  restart: on-failure
-  ports:
-    - "27017:27017"
+# peakabooMongoSetup:
+#   image: mongo:3
+#   links:
+#     - peakabooMongo
+#   volumes:
+#     - ./mongo:/scripts:ro
+#   entrypoint: [ "/scripts/setupmongo" ]
+#
+# peakabooMongo:
+#   image: mongo:3
+#   volumes:
+#     - ./mongo/db:/data/db
+#   restart: on-failure
+#   ports:
+#     - "27017:27017"
 
-peakaboonginx:
-  build: https://github.com/androidwiltron/nginx-rtmp-docker.git
-  command: /scripts/startnginx
-  environment:
-    - SERVER_NAME
-  volumes:
-    - ./nginx:/tmp/nginx
-    - ./nginx/startnginx:/scripts/startnginx:ro
-  links:
-    - peakaboo
-  ports:
-    - "80:80"
-    - "443:443"
-    - "1935:1935"
-  restart: on-failure
+
+
+  mongors1n1:
+    container_name: mongors1n1
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors1n1:/data/db
+
+  mongors1n2:
+    container_name: mongors1n2
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors1n2:/data/db
+
+  mongors1n3:
+    container_name: mongors1n3
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors1n3:/data/db
+
+  mongors2n1:
+    container_name: mongors2n1
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors2n1:/data/db
+
+  mongors2n2:
+    container_name: mongors2n2
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors2n2:/data/db
+
+  mongors2n3:
+    container_name: mongors2n3
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongors2n3:/data/db
+
+  mongocfg1:
+    container_name: mongocfg1
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    environment:
+      TERM: xterm
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongocfg1:/data/db
+
+  mongocfg2:
+    container_name: mongocfg2
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    environment:
+      TERM: xterm
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongocfg2:/data/db
+
+  mongocfg3:
+    container_name: mongocfg3
+    image: mongo:3.2
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    environment:
+      TERM: xterm
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongocfg3:/data/db
+
+  mongos1:
+    container_name: mongos1
+    image: mongo:3.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+    command: mongos --configdb mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  mongos2:
+    container_name: mongos2
+    image: mongo:3.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+    command: mongos --configdb mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    ports:
+      - 27018:27017
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+
+  peakaboonginx:
+    build: https://github.com/androidwiltron/nginx-rtmp-docker.git
+    command: /scripts/startnginx
+    environment:
+      - SERVER_NAME
+    volumes:
+      - ./nginx:/tmp/nginx
+      - ./nginx/startnginx:/scripts/startnginx:ro
+    links:
+      - peakaboo
+    ports:
+      - "80:80"
+      - "443:443"
+      - "1935:1935"
+    restart: on-failure
