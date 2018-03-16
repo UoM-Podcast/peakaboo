@@ -1,4 +1,4 @@
-Session.setDefault 'view', 'view-galicaster'
+Session.setDefault 'view', 'view-livestream'
 Session.setDefault 'zoom', 3
 Session.setDefault 'showVumeter', false
 Session.set 'search-query'

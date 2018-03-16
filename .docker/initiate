@@ -1,13 +1,42 @@
 #!/bin/bash
 
-for (( rs = 1; rs < 3; rs++ )); do
-  echo "Intializing replica ${rs} set"
-  replicate="rs.initiate(); sleep(1000); cfg = rs.conf(); cfg.members[0].host = \"mongors${rs}n1\"; rs.reconfig(cfg); rs.add(\"mongors${rs}n2\"); rs.add(\"mongors${rs}n3\"); rs.status();"
-  docker exec -it mongors${rs}n1 bash -c "echo '${replicate}' | mongo"
-done
+if [ -f data/initiated ]; then
+	echo 'Already initiated'
+	exit
+fi
 
-sleep 2
-# Add better mechanisum to wait for mongos connectivity to be
-# established by tailing docker log for connection readiness
+function mongoExec() {
+	HOST="$1"
+	MONGOCMD="$2"
+	echo "$MONGOCMD"
+	docker exec -it "$1" bash -c "echo '${MONGOCMD}' | mongo"
+}
 
-docker exec -it mongos1 bash -c "echo \"sh.addShard('mongors1/mongors1n1:27017'); sh.addShard('mongors2/mongors2n1:27017');\" | mongo "
+echo 'Initializing config replica set'
+mongoExec mongocfg1 'rs.initiate({ _id: "mongorscfg", configsvr: true, members: [ { _id: 0, host: "mongocfg1:27017"  } ] })'
+
+sleep 3
+
+echo 'Initializing rs1'
+mongoExec mongors1n1 'rs.initiate({ _id: "mongors1", members: [ { _id: 0, host: "mongors1n1:27017"  } ] })'
+
+echo 'Initializing rs2'
+mongoExec mongors2n1 'rs.initiate({ _id: "mongors2", members: [ { _id: 0, host: "mongors2n1:27017"  } ] })'
+
+sleep 3
+
+echo 'Initializing shards'
+mongoExec mongos1 'sh.addShard("mongors1/mongors1n1:27017")'
+mongoExec mongos1 'sh.addShard("mongors2/mongors2n1:27017")'
+
+echo 'Creating admin user'
+mongoExec mongos1 'use admin
+db.createUser(
+  {
+    user: "mongo-admin",
+    pwd: "mongo-admin",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)'
+
+touch initiated

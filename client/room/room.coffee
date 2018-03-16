@@ -33,8 +33,8 @@ Template.room_controls.events
   'click .lock': (e) ->
     if isUserAuthorised Meteor.userId(), ['admin', 'control-rooms']
       switch e.currentTarget.id
-        when 'peakaboo-audio-lock'
-          Session.setTemp 'audioLocked', not Session.get 'audioLocked'
+        # when 'peakaboo-audio-lock'
+        #   Session.setTemp 'audioLocked', not Session.get 'audioLocked'
         when 'peakaboo-controls-lock'
           Session.setTemp 'controlsLocked', not Session.get 'controlsLocked'
   'click .panel-body.lockable': (e) ->
@@ -55,7 +55,10 @@ Template.room_controls.rendered = ->
   Session.setTemp 'audioLocked', true
   Session.setTemp 'controlsLocked', true
   Session.setTemp 'audioStreaming', false
+
+  # get dash js player
   $.getScript("https://cdn.dashjs.org/latest/dash.all.min.js");
+  # dashjs.MediaPlayer().create();
   @autorun =>
     offline = Template.currentData().room.offline
     resizePanelTitle @
@@ -74,6 +77,10 @@ Template.room_controls.rendered = ->
     else
       @$('#peakaboo-audio-stream span').hide 'slow'
     @$('#audioStreaming').prop 'src', url
+
+Template.videoPanel.helpers
+  'theName': ->
+    Rooms.find().fetch()[0]['_id']
 
 Template.confirmModal.rendered = ->
   Ladda.bind 'button.ladda-button'
@@ -222,3 +229,12 @@ Template.recordModal.helpers
     'disabled' if Session.get('recWaiting') or
       Session.get('recError') or
       not Session.get 'recTitle'
+
+# Template.videos.rendered = ->
+#   k = Meteor.setInterval((->
+#     if MediaPlayerFactory
+#       MediaPlayerFactory.createAll()
+#       Meteor.clearInterval k
+#     return
+#   ), 200)
+#   return

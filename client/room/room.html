@@ -27,18 +27,7 @@
   {{#with room}}
   <div class="row">
     <div class="col-md-6">
-      <div class="panel {{#if roomOffline}}panel-danger{{else}}panel-default{{/if}}">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto top" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}">{{displayName}}{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}<span class="label label-danger pull-right">Rec</span>{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
-        </div>
-        <div class="panel-body">
-          <a href="#" class="thumbnail">
-            {{#if thumbnail}}
-            <img src="{{thumbnail}}">{{else}}<video data-dashjs-player autoplay src="/dash/{{displayName}}/index.mpd" controls></video>
-            {{/if}}
-          </a>
-        </div>
-      </div>
+      {{> videoPanel}}
     </div>
     <div class="col-md-6">
       {{#if recording}}
@@ -105,8 +94,8 @@
           <div id="audio-panel" class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title pull-left">Audio</h3>
-              <button type="button" id="peakaboo-audio-lock" title="Unlock Audio Panel" class="lock btn {{#if audioLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if audioLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button>
-              <button type="button" id="peakaboo-audio-stream" title="Listen" class="btn {{#if audioStreaming}}btn-danger{{else}}btn-success{{/if}} btn-xs pull-right"><span>Buffering... </span><i class="glyphicon {{#if audioStreaming}}audiostreaming glyphicon-volume-up{{else}}glyphicon-headphones{{/if}}"></i></button>
+              <!-- <button type="button" id="peakaboo-audio-lock" title="Unlock Audio Panel" class="lock btn {{#if audioLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if audioLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button> -->
+              <!-- <button type="button" id="peakaboo-audio-stream" title="Listen" class="btn {{#if audioStreaming}}btn-danger{{else}}btn-success{{/if}} btn-xs pull-right"><span>Buffering... </span><i class="glyphicon {{#if audioStreaming}}audiostreaming glyphicon-volume-up{{else}}glyphicon-headphones{{/if}}"></i></button> -->
               <div class="clearfix"></div>
             </div>
             <div class="panel-body lockable {{#if audioLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-audio-lock">
@@ -270,6 +259,25 @@
           <button id="recordModalCancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       </div>
+    </div>
+  </div>
+</template>
+
+<template name="videoPanel">
+  <div class="panel {{#if roomOffline}}panel-danger{{else}}panel-default{{/if}}">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto top" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}">{{displayName}}{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}<span class="label label-danger pull-right">Rec</span>{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
+    </div>
+    <div class="panel-body">
+      {{#each inputs.cameras}}
+      <a href="#" class="thumbnail">
+        {{#if thumbnail}}
+        <video class="data-dashjs-player" autoplay controls data-setup='{"fluid": true}'>
+          <source src="/dash/{{theName}}_{{this}}/index.mpd" type='application/dash+xml'>
+        </video>
+        {{/if}}
+      </a>
+      {{/each}}
     </div>
   </div>
 </template>

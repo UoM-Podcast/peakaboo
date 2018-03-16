@@ -93,8 +93,8 @@ Template.registerHelper 'thumbnail', ->
   switch Session.get 'view'
     when 'view-presentation'
       file = 'presentation'
-    when 'view-camera'
-      file = 'presenter'
+    # when 'view-camera'
+    #   file = 'presenter'
     when 'view-galicaster'
       file = 'galicaster'
     when 'view-livestream'
@@ -102,8 +102,8 @@ Template.registerHelper 'thumbnail', ->
 
   if images?[file]
     "/image/#{roomId}/#{file}?#{timestamp}"
-  else if file == 'livestream'
-    return false
+  # else if file == 'livestream'
+  #   return false
   else
     '/images/no_image_available.png'
 
