@@ -15,9 +15,11 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{{pathFor 'room_list'}}">Home</a></li>
+        <!-- <li><a href="{{pathFor 'room_list'}}">Home</a></li> -->
         <li class="dropdown">
+          {{#if roomList}}
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">View <b class="caret"></b></a>
+            {{/if}}
           <ul id="view" class="dropdown-menu" role="menu">
             <li><a href="#" id="view-livestream" class="preview">{{#if view 'view-livestream'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Livestream</span></a></li>
             <li><a href="#" id="view-galicaster" class="preview">{{#if view 'view-galicaster'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Galicaster</span></a></li>

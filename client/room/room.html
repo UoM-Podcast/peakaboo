@@ -106,6 +106,58 @@
             </div>
           </div>
         </div>
+        <!-- CAMERA CONTROLS  -->
+        <div class="col-md-6">
+          <div id="ptz-controls-panel" class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title pull-left">PTZ Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><div class="clearfix"></div>
+            </div>
+            <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
+              <!-- row 1 -->
+              <div class="row">
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-left-up-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-left fa-rotate-45"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-up-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-up"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-right-up-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-up fa-rotate-45"></i></button>
+                </div>
+              </div>
+              <!-- row 2 -->
+              <div class="row">
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-left-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="Left"><i class="fa fa-arrow-left"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-home-button" class="btn peakaboo-ptz-home btn-info {{#if recControlsDisable}}disabled{{/if}}" title="Home"><i class="fa fa-home"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-right-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="Right"><i class="fa fa-arrow-right"></i></button>
+                </div>
+              </div>
+              <!-- row 3 -->
+              <div class="row">
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-left-down-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="Left Down"><i class="fa fa-arrow-down fa-rotate-45"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-down-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="Down"><i class="fa fa-arrow-down"></i></button>
+                </div>
+                <div class="col-xs-4 text-center ptz-btn">
+                  <button type="button" id="peakaboo-ptz-right-down-button" class="btn peakaboo-ptz btn-default {{#if recControlsDisable}}disabled{{/if}}" title="Right Down"><i class="fa fa-arrow-right fa-rotate-45"></i></button>
+                </div>
+              </div>
+              <hr>
+              <div class="row text-center">
+                <button type="button" id="peakaboo-ptz-zoom-in-button" class="btn btn-default peakaboo-ptz peakaboo-ptz-zoom {{#if controlsLocked}}disabled{{/if}}" title="Zoom In"><i class="fa fa-plus"></i></button>
+                <button type="button" id="peakaboo-ptz-zoom-out-button" class="btn btn-default peakaboo-ptz peakaboo-ptz-zoom {{#if controlsLocked}}disabled{{/if}}" title="Zoom Out"><i class="fa fa-minus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
       </div>
     </div>
   </div>
@@ -272,7 +324,7 @@
       {{#each inputs.cameras}}
       <a href="#" class="thumbnail">
         {{#if thumbnail}}
-        <video class="data-dashjs-player" autoplay controls data-setup='{"fluid": true}'>
+        <video class="data-dashjs-player" controls data-setup='{"fluid": true}'>
           <source src="/dash/{{theName}}_{{this}}/index.mpd" type='application/dash+xml'>
         </video>
         {{/if}}
