@@ -24,11 +24,10 @@ ecmascript@0.10.0
 dynamic-import@0.3.0
 meteorhacks:async
 fortawesome:fontawesome
-twbs:bootstrap
-elie:bootflat
 npm-bcrypt
 coffeescript
 peerlibrary:async
 stylus
 accounts-password
 ian:accounts-ui-bootstrap-3
+twbs:bootstrap

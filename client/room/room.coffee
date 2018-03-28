@@ -1,3 +1,4 @@
+import {MediaPlayer} from 'dashjs';
 Template.room_nav.events
   'click #peakaboo-remove-btn': (e, template) ->
     if isUserAuthorised Meteor.userId(), ['admin']
@@ -72,8 +73,12 @@ Template.room_controls.rendered = ->
   Session.setTemp 'audioStreaming', false
 
   # get dash js player
-  $.getScript("https://cdn.dashjs.org/latest/dash.all.min.js");
-  # dashjs.MediaPlayer().create();
+  # $.getScript("https://cdn.dashjs.org/latest/dash.all.min.js");
+  room = @data.room
+  for i in room.inputs.cameras
+    url = "/dash/#{room.displayName}_#{i}/index.mpd";
+    player = MediaPlayer().create();
+    player.initialize(document.querySelector("#videoPlayer_#{i}"), url, true);
   @autorun =>
     offline = Template.currentData().room.offline
     resizePanelTitle @

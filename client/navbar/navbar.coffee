@@ -4,7 +4,7 @@ Session.setDefault 'showVumeter', false
 Session.set 'search-query'
 
 minZoom = 1
-maxZoom = 4
+maxZoom = 6
 
 resetFilters = ->
   $('#peakaboo-filter-clear').addClass 'disabled'

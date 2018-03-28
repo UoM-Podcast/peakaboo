@@ -123,10 +123,10 @@ audio {
   margin-right: 8px;
 }
 
-#peakaboo-remove-btn {
+/*#peakaboo-remove-btn {
   margin-left: 10px;
   padding: 9px;
-}
+}*/
 
 video {
        width: 100%;
@@ -147,4 +147,8 @@ video {
 
 .peakaboo-ptz-zoom {
   margin: 10px 10px 0 10px;
+}
+
+.footer {
+  margin: 0 12px 0 0;
 }
