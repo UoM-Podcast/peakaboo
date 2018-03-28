@@ -97,13 +97,13 @@ Template.registerHelper 'thumbnail', ->
     #   file = 'presenter'
     when 'view-galicaster'
       file = 'galicaster'
-    when 'view-livestream'
-      file = 'livestream'
+    when 'view-Camera_1'
+      file = 'Camera_1'
+    when 'view-Camera_2'
+      file = 'Camera_2'
 
   if images?[file]
     "/image/#{roomId}/#{file}?#{timestamp}"
-  # else if file == 'livestream'
-  #   return false
   else
     '/images/no_image_available.png'
 

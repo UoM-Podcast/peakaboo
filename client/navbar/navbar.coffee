@@ -1,4 +1,4 @@
-Session.setDefault 'view', 'view-livestream'
+Session.setDefault 'view', 'view-Camera_1'
 Session.setDefault 'zoom', 3
 Session.setDefault 'showVumeter', false
 Session.set 'search-query'
