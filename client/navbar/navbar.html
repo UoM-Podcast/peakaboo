@@ -3,7 +3,6 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="{{pathFor 'room_list'}}">
-        <i class="fa fa-video-camera fa-inverse"></i>
         {{appname}}
       </a>
     </div>
@@ -39,7 +38,9 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {{>loginButtons}}
+        <li class="dropdown">
+        <a href="/users"><i class="search-icon fa fa-cog fa-1x fa-inverse"></i></a>
+      </li>
       </ul>
       {{#if roomList}}
       <form class="navbar-form navbar-right" role="search">
@@ -92,7 +93,6 @@
           <span class="icon-bar"></span>
         </button> -->
         <a class="navbar-brand" href="#">
-          <i class="fa fa-video-camera fa-inverse"></i>
           {{appname}}
         </a>
       </div>
