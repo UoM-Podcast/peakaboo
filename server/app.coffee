@@ -7,11 +7,6 @@ Meteor.startup ->
       password: 'galicaster'
       name: 'Galicaster'
       roles: ['galicaster']
-    ,
-      email: 'administrator@2UlD[#I+_c?oVqH/k2nw>yVV.com'
-      password: '83UlDOSRm#8(0?UOs5:]s)6*'
-      name: 'Admin'
-      roles: ['admin']
     ]
 
     for user in users
