@@ -1,21 +1,21 @@
 <template name="signin">
   <div class="container">
     <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-info">
+      <div class="panel">
         <div class="panel-heading"><strong>Sign In</strong>
           {{#if cashide}}
           {{else}}
-            <i class="glyphicon glyphicon-info-sign pull-right" data-toggle="modal" data-target=".info-modal-cas"></i>
+            <i class="fa fa-info pull-right" data-toggle="modal" data-target=".info-modal-cas"></i>
             <!-- Information modal -->
             <div class="modal fade info-modal-cas">
               <div class="modal-dialog">
-                <div class="modal-content panel-info">
+                <div class="modal-content">
                   <div class="modal-header panel-heading">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                     <h4 class="modal-title"><strong>Information</strong></h4>
                   </div>
                   <div class="modal-body">
-                    <p>To sign in you may need to allow popups within your web browser</p>
+                    To sign in you may need to allow popups within your web browser
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>

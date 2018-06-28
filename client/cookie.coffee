@@ -1,7 +1,7 @@
 # set login token cookie
 # based on meteorhacks:fast-render
-import Cookies from 'js-cookie'
-
+# import Cookies from 'js-cookie'
+Cookies = require 'js-cookie'
 Meteor.startup ->
   resetToken()
 

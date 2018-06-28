@@ -1,12 +1,14 @@
-#zoom {
-  display: table;
-  width: 100%;
-}
 
 #zoom > span {
   display: table-cell;
   padding-left: 20px;
 }
+/*#zoom {
+  display: table;
+  width: 100%;
+}
+
+
 
 #zoom > div {
   display: table-cell;
@@ -20,7 +22,7 @@
   margin-right: 5px;
   position: absolute;
   right: 0;
-}
+}*/
 
 .peakaboo-filter.active {
   border-bottom: 1px solid white;

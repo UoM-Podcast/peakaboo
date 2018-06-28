@@ -1,77 +1,80 @@
 <template name="navbar">
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #2196F3;" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a class="navbar-brand" href="{{pathFor 'room_list'}}">
-        <i class="search-icon glyphicon glyphicon-facetime-video"></i>
         {{appname}}
       </a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{{pathFor 'room_list'}}">Home</a></li>
+        <!-- <li><a href="{{pathFor 'room_list'}}">Home</a></li> -->
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">View <b class="caret"></b></a>
+          {{#if roomList}}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></a>
+            {{/if}}
           <ul id="view" class="dropdown-menu" role="menu">
+            <li><a><span><b>Snapshot</b></span></a></li>
+            <li><a href="#" id="view-Camera_1" class="preview">{{#if view 'view-Camera_1'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Camera 1</span></a></li>
+            <li><a href="#" id="view-Camera_2" class="preview">{{#if view 'view-Camera_2'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Camera 2</span></a></li>
             <li><a href="#" id="view-galicaster" class="preview">{{#if view 'view-galicaster'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Galicaster</span></a></li>
-            <li><a href="#" id="view-presentation" class="preview">{{#if view 'view-presentation'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Presentation</span></a></li>
-            <li><a href="#" id="view-camera" class="preview">{{#if view 'view-camera'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Camera</span></a></li>
+            <!-- <li><a href="#" id="view-presentation" class="preview">{{#if view 'view-presentation'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Presentation</span></a></li>
+            <li><a href="#" id="view-camera" class="preview">{{#if view 'view-camera'}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Camera</span></a></li> -->
             {{#if roomList}}
             <li class="divider"></li>
+            <li><a><span><b>Zoom</b></span></a></li>
             <li>
               <div id="zoom">
-                <span>Zoom</span>
                 <div>
-                  <button type="button" class="btn btn-default {{#if zoomOutDisabled}}disabled{{/if}}" id="zoomOut"><span class="glyphicon glyphicon-minus"></span></button>
-                  <button type="button" class="btn btn-default {{#if zoomInDisabled}}disabled{{/if}}" id="zoomIn"><span class="glyphicon glyphicon-plus"></span></button>
+                  <button type="button" class="btn btn-default {{#if zoomOutDisabled}}disabled{{/if}}" id="zoomOut"><span class="fa fa-minus"></span></button>
+                  <button type="button" class="btn btn-default {{#if zoomInDisabled}}disabled{{/if}}" id="zoomIn"><span class="fa fa-plus"></span></button>
                 </div>
               </div>
             </li>
-            <li class="divider"></li>
+            <!-- <li class="divider"></li> -->
             <li><a href="#" class="showVolMeter">{{#if showVolMeter}}{{>tick}}{{/if}}<span class="peakaboo-dropdown-label">Show volume meter</span></a></li>
             {{/if}}
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {{>loginButtons}}
+        <li class="dropdown">
+        <a href="/users"><i class="search-icon fa fa-cog fa-1x fa-inverse"></i></a>
+      </li>
       </ul>
       {{#if roomList}}
-        <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right" role="search">
+        <div class="input-group form-search">
+          <span class="input-group-addon"><i class="search-icon fa fa-search fa-inverse"></i></span>
+          <input id="search" type="text" class="form-control search-query">
+          <span class="input-group-btn">
+            <button id="searchReset" type="reset" class="btn btn-xs" data-type="last" {{resetDisabled}}><i class="fa fa-times fa-inverse"></i></button>
+          </span>
+        </div>
+      </form>
+        <ul class="nav navbar-nav navbar-right">
           <div class="btn-group" data-toggle="buttons">
             <label id="peakaboo-filter-clear" class="btn btn-default disabled" title="Clear Filters">
-              <input type="checkbox" name="all"> X
+              <input type="checkbox" name="all"><i class="fa fa-times fa-inverse"></i>
             </label>
             <label class="btn peakaboo-filter btn-danger {{#unless getPublishedCount 'offline'}}peakaboo-filter-zero{{/unless}}" title="Show Offline">
-              <input type="checkbox" name="offline"><i class="glyphicon glyphicon-off"></i> {{getPublishedCount 'offline'}}
+              <input type="checkbox" name="offline"><i class="fa fa-power-off fa-inverse"></i> {{getPublishedCount 'offline'}}
             </label>
             <label class="btn btn-info peakaboo-filter {{#unless getPublishedCount 'quiet'}}peakaboo-filter-zero{{/unless}}" title="Show Low Audio">
-              <input type="checkbox" name="quiet"><i class="glyphicon glyphicon-volume-off"></i> {{getPublishedCount 'quiet'}}
+              <input type="checkbox" name="quiet"><i class="fa fa-volume-off fa-inverse"></i> {{getPublishedCount 'quiet'}}
             </label>
             <label class="btn btn-warning peakaboo-filter {{#unless getPublishedCount 'recording'}}peakaboo-filter-zero{{/unless}}" title="Show Recording">
-              <input type="checkbox" name="recording"><i class="glyphicon glyphicon-record"></i> {{getPublishedCount 'recording'}}
+              <input type="checkbox" name="recording"><i class="fa fa-circle fa-inverse"></i> {{getPublishedCount 'recording'}}
             </label>
             <label class="btn btn-primary peakaboo-filter {{#unless getPublishedCount 'paused'}}peakaboo-filter-zero{{/unless}}" title="Show Paused">
-              <input type="checkbox" name="paused"><i class="glyphicon glyphicon-pause"></i> {{getPublishedCount 'paused'}}
+              <input type="checkbox" name="paused"><i class="fa fa-pause fa-inverse"></i> {{getPublishedCount 'paused'}}
             </label>
-            <label class="btn btn-secondary peakaboo-filter {{#unless getPublishedCount 'camAvailable'}}peakaboo-filter-zero{{/unless}}" title="Show Cameras">
-              <input type="checkbox" name="camAvailable"><i class="glyphicon glyphicon-camera"></i> {{getPublishedCount 'camAvailable'}}
+            <label class="btn btn-primary peakaboo-filter {{#unless getPublishedCount 'camAvailable'}}peakaboo-filter-zero{{/unless}}" title="Show Cameras">
+              <input type="checkbox" name="camAvailable"><i class="fa fa-video-camera fa-inverse"></i> {{getPublishedCount 'camAvailable'}}
             </label>
           </div>
-          <div class="input-group form-search">
-            <span class="input-group-addon"><i class="search-icon glyphicon glyphicon-search"></i></span>
-            <input id="search" type="text" class="form-control search-query">
-            <span class="input-group-btn">
-              <button id="searchReset" type="reset" class="btn btn-primary" data-type="last" {{resetDisabled}}>X</button>
-            </span>
-          </div>
-        </form>
+        </ul>
+
       {{/if}}
     </div>
   </div>
@@ -80,17 +83,16 @@
 </template>
 
 <template name="navbar_empty">
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #2196F3;" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </button>
+        </button> -->
         <a class="navbar-brand" href="#">
-          <i class="search-icon glyphicon glyphicon-facetime-video"></i>
           {{appname}}
         </a>
       </div>
@@ -100,7 +102,7 @@
 </template>
 
 <template name="tick">
-  <span class="glyphicon glyphicon-ok pull-right"></span>
+  <span class="fa fa-check pull-right"></span>
 </template>
 
 <template name="cancel">

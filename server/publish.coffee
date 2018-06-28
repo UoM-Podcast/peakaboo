@@ -56,4 +56,5 @@ Meteor.publish 'GalicasterControl', (RoomId) ->
         paused: 1
         recording: 1
         camAvailable: 1
+        ptzmove: 1
   @stop()
