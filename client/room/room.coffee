@@ -1,24 +1,41 @@
-Template.room_nav.events
-  'click #peakaboo-remove-btn': (e, template) ->
-    if isUserAuthorised Meteor.userId(), ['admin']
-      Session.setTemp 'removeLocked', true
-  'click #peakaboo-remove-room': (e, template) ->
-    removeBtn = $(e.currentTarget)
-    if removeBtn.hasClass 'peakaboo-locked'
-      fireAnim(removeBtn, 'shake')
-    if isUserAuthorised Meteor.userId(), ['admin']
-      room = template.data.room
-      Rooms.remove room._id
-
-Template.room_nav.helpers
-  'removeLocked': ->
-    Session.get 'removeLocked'
+import {MediaPlayer} from 'dashjs';
+#  ROOM REMOVAL EVENTS
+# Template.room_nav.events
+#   'click #peakaboo-remove-btn': (e, template) ->
+#     if isUserAuthorised Meteor.userId(), ['admin']
+#       Session.setTemp 'removeLocked', true
+#   'click #peakaboo-remove-room': (e, template) ->
+#     removeBtn = $(e.currentTarget)
+#     if removeBtn.hasClass 'peakaboo-locked'
+#       fireAnim(removeBtn, 'shake')
+#     if isUserAuthorised Meteor.userId(), ['admin']
+#       room = template.data.room
+#       Rooms.remove room._id
+#
+# Template.room_nav.helpers
+#   'removeLocked': ->
+#     Session.get 'removeLocked'
 
 Template.room_controls.events
   'click .peakaboo-command': (e) ->
     unsetCommandError()
     Session.set 'modal',
       e.currentTarget.dataset
+  'mousedown .peakaboo-ptz': (e, template) ->
+    room = template.data.room
+    move_id = e.currentTarget.id
+    console.log move_id + ' pressed'
+    Rooms.update room._id, {$set: {ptzmove: move_id}}
+  'mouseup .peakaboo-ptz': (e, template) ->
+    room = template.data.room
+    move_id = e.currentTarget.id
+    console.log move_id + ' released'
+    Rooms.update room._id, {$set: {ptzmove: false}}
+  'click .peakaboo-ptz-home': (e, template) ->
+    room = template.data.room
+    move_id = e.currentTarget.id
+    console.log move_id + ' pressed'
+    Rooms.update room._id, {$set: {ptzmove: move_id}}
   'click #peakaboo-pause-button': (e, template) ->
     room = template.data.room
     newState = not room.paused
@@ -33,8 +50,8 @@ Template.room_controls.events
   'click .lock': (e) ->
     if isUserAuthorised Meteor.userId(), ['admin', 'control-rooms']
       switch e.currentTarget.id
-        when 'peakaboo-audio-lock'
-          Session.setTemp 'audioLocked', not Session.get 'audioLocked'
+        # when 'peakaboo-audio-lock'
+        #   Session.setTemp 'audioLocked', not Session.get 'audioLocked'
         when 'peakaboo-controls-lock'
           Session.setTemp 'controlsLocked', not Session.get 'controlsLocked'
   'click .panel-body.lockable': (e) ->
@@ -55,6 +72,15 @@ Template.room_controls.rendered = ->
   Session.setTemp 'audioLocked', true
   Session.setTemp 'controlsLocked', true
   Session.setTemp 'audioStreaming', false
+
+  # get dash js player
+  # $.getScript("https://cdn.dashjs.org/latest/dash.all.min.js");
+  room = @data.room
+  for i, k of room.inputs.cameras
+    url = "/dash/#{room.displayName}_#{i}/index.mpd";
+    player = MediaPlayer().create();
+    player.getDebug().setLogToBrowserConsole(false)
+    player.initialize(document.querySelector("#videoPlayer_#{i}"), url, true);
   @autorun =>
     offline = Template.currentData().room.offline
     resizePanelTitle @
@@ -74,6 +100,10 @@ Template.room_controls.rendered = ->
       @$('#peakaboo-audio-stream span').hide 'slow'
     @$('#audioStreaming').prop 'src', url
 
+Template.videoPanel.helpers
+  'theName': ->
+    Rooms.find().fetch()[0]['_id']
+
 Template.confirmModal.rendered = ->
   Ladda.bind 'button.ladda-button'
 
@@ -90,6 +120,16 @@ Template.room_controls.helpers
       true
   'audioStreaming': ->
     Session.get 'audioStreaming'
+
+Template.cameraControls.helpers
+  'controlsLocked': ->
+    Session.get 'controlsLocked'
+  'controlsDisable': ->
+    if not @recording or Session.get 'controlsLocked'
+      true
+  'recControlsDisable': ->
+    if @recording or Session.get 'controlsLocked'
+      true
 
 Template.confirmModal.helpers
   modal: ->
@@ -221,3 +261,20 @@ Template.recordModal.helpers
     'disabled' if Session.get('recWaiting') or
       Session.get('recError') or
       not Session.get 'recTitle'
+
+# Template.videos.rendered = ->
+#   k = Meteor.setInterval((->
+#     if MediaPlayerFactory
+#       MediaPlayerFactory.createAll()
+#       Meteor.clearInterval k
+#     return
+#   ), 200)
+#   return
+
+Template.registerHelper 'arrayify', (obj) ->
+  result = []
+  for key of obj
+    result.push
+      name: key
+      value: obj[key]
+  result

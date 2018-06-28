@@ -1,44 +1,11 @@
-<template name="room_nav">
-  <ul class="nav nav-pills">
-    <li class="{{#if controls}}active{{/if}}"><a href="{{pathFor 'room_controls' _id=room._id}}" class="room_tab">Controls</a></li>
-    <a id="peakaboo-remove-btn" title="Remove room" class="btn btn-danger room_tab" data-toggle="modal" data-target=".warn-modal-remove"><i class="glyphicon glyphicon-remove"></i> Remove Room</a>
-    <div class="modal fade warn-modal-remove">
-      <div class="modal-dialog">
-        <div class="modal-content panel-danger">
-          <div class="modal-header panel-heading">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></button>
-            <h4 class="modal-title"><strong>Warning: Removing Room</strong></h4>
-          </div>
-          <div class="modal-body">
-          </div>
-          <div class="modal-footer">
-            <a id="peakaboo-remove-room" type="button" class="btn btn-danger {{#if removeLocked}}{{else}}peakaboo-locked{{/if}}" href="{{#if removeLocked}}/{{else}}#{{/if}}">OK</a>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <!-- <li class="{{#if repository}}active{{/if}}"><a href="{{pathFor 'room_repository' _id=room._id}}" class="room_tab">Repository</a></li> -->
-  </ul>
-  <hr>
-</template>
-
 <template name="room_controls">
-  {{> room_nav}}
+  <!-- {{> room_nav}} -->
   {{#with room}}
   <div class="row">
-    <div class="col-md-6">
-      <div class="panel {{#if roomOffline}}panel-danger{{else}}panel-default{{/if}}">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto top" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}">{{displayName}}{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}<span class="label label-danger pull-right">Rec</span>{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
-        </div>
-        <div class="panel-body">
-          <a href="#" class="thumbnail">
-            <img src="{{thumbnail}}">
-          </a>
-        </div>
-      </div>
+    <div class="col-md-8">
+      {{> videoPanel}}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       {{#if recording}}
       <div class="row">
         <div class="col-md-12">
@@ -54,7 +21,7 @@
       </div>
       {{/if}}
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Information</h3>
@@ -62,11 +29,16 @@
             <table class="table table-striped table-bordered">
               <tbody>
                 <tr>
-                  <td>Available inputs</td><td>{{#each inputs.presentations}}{{> input_icon title=this icon='picture'}}{{/each}} {{#each inputs.cameras}}{{> input_icon title=this icon='camera'}} {{/each}}</td>
+                  <td>Available inputs</td><td>{{#each inputs.presentations}}{{> input_icon title=this icon='desktop'}}{{/each}} {{#each arrayify inputs.cameras}}{{> input_icon title=name icon='video-camera'}} {{/each}}</td>
                 </tr>
                 <tr>
-                  <td>IP</td><td>{{ip}}</td>
+                  <td>Capture Agent IP</td><td>{{ip}}</td>
                 </tr>
+                {{#each arrayify inputs.cameras}}
+                <tr>
+                  <td>{{name}} IP</td><td><a href="http://{{value}}" target="_blank">{{value}}</a></td>
+                </tr>
+                {{/each}}
                 <tr>
                   <td>Group</td><td>{{supportGroup}}</td>
                 </tr>
@@ -74,21 +46,25 @@
             </table>
           </div>
         </div>
-        <div class="col-md-6">
+        </div>
+        <div class="row">
+
+
+        <div class="col-md-12">
           <div id="controls-panel" class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title pull-left">Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><div class="clearfix"></div>
+              <h3 class="panel-title pull-left">Recorder Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><div class="clearfix"></div>
             </div>
             <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
               <div class="row">
                 <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="glyphicon glyphicon-record text-danger"></i></button>
+                  <button type="button" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="fa fa-circle text-danger"></i></button>
                 </div>
                 <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-pause-button" class="btn peakaboo-transport {{#if paused}}btn-info{{else}}btn-default{{/if}} {{#if controlsDisable}}disabled{{/if}}" title="{{#if paused}}Continue Recording{{else}}Pause Recording{{/if}}"><i class="glyphicon glyphicon-pause"></i></button>
+                  <button type="button" id="peakaboo-pause-button" class="btn peakaboo-transport {{#if paused}}btn-info{{else}}btn-default{{/if}} {{#if controlsDisable}}disabled{{/if}}" title="{{#if paused}}Continue Recording{{else}}Pause Recording{{/if}}"><i class="fa fa-pause"></i></button>
                 </div>
                 <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="glyphicon glyphicon-stop"></i></button>
+                  <button type="button" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="fa fa-stop"></i></button>
                 </div>
               </div>
               <hr>
@@ -99,12 +75,13 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+
+
+        </div>
+        <!-- <div class="col-md-6">
           <div id="audio-panel" class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title pull-left">Audio</h3>
-              <button type="button" id="peakaboo-audio-lock" title="Unlock Audio Panel" class="lock btn {{#if audioLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if audioLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button>
-              <button type="button" id="peakaboo-audio-stream" title="Listen" class="btn {{#if audioStreaming}}btn-danger{{else}}btn-success{{/if}} btn-xs pull-right"><span>Buffering... </span><i class="glyphicon {{#if audioStreaming}}audiostreaming glyphicon-volume-up{{else}}glyphicon-headphones{{/if}}"></i></button>
               <div class="clearfix"></div>
             </div>
             <div class="panel-body lockable {{#if audioLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-audio-lock">
@@ -114,22 +91,32 @@
               <div class="col-xs-4 text-center">{{> vumeter vumeter=vumeter vertical=true}}<label>Level</label></div>
             </div>
           </div>
+        </div> -->
+        <!-- CAMERA CONTROLS  -->
+        {{#each arrayify inputs.cameras}}
+        <div class="row">
+        <div class="col-md-12">
+          {{> cameraControls}}
         </div>
+        <!--  -->
       </div>
+      {{/each}}
     </div>
   </div>
   <audio id="audioStreaming" autoplay></audio>
   {{/with}}
   {{>confirmModal}}
   {{>recordModal}}
+
+  <!-- {{> roomFooter}} -->
 </template>
 
 <template name="input_icon">
-  <i title="{{title}}" class="glyphicon glyphicon-{{icon}}"></i>
+  <i title="{{title}}" class="fa fa-{{icon}}"></i>
 </template>
 
 <template name="room_repository">
-  {{> room_nav}}
+  <!-- {{> room_nav}} -->
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-default">
@@ -212,14 +199,14 @@
               <div class="radio">
                 <label>
                   <input type="radio" name="profile" value="nocam" checked>
-                  {{> input_icon title='Presentation' icon='picture'}}
+                  {{> input_icon title='Presentation' icon='desktop'}}
                 </label>
               </div>
               {{#if room.camAvailable}}
               <div class="radio">
                 <label>
                   <input type="radio" name="profile" value="cam">
-                  {{> input_icon title='Presentataion' icon='picture'}} {{> input_icon title='Camera' icon='camera'}}
+                  {{> input_icon title='Presentataion' icon='desktop'}} {{> input_icon title='Camera' icon='video-camera'}}
                 </label>
               </div>
               {{/if}}
@@ -271,3 +258,106 @@
     </div>
   </div>
 </template>
+
+<template name="videoPanel">
+  <div class="panel {{#if roomOffline}}panel-danger{{else}}panel-default{{/if}}">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto top" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}">{{displayName}}{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}<span class="label label-danger pull-right">Rec</span>{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
+    </div>
+    <div class="panel-body">
+      {{#each arrayify inputs.cameras}}
+      <a href="#" class="thumbnail">
+        {{#if thumbnail}}
+        <video id="videoPlayer_{{name}}" controls></video>
+        {{/if}}
+      </a>
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<!-- <template name="roomFooter">
+  <div class="navbar navbar-fixed-bottom" style="background-color: transparent;">
+
+      <div class="footer py-3 text-right">
+          {{> room_nav}}
+      </div>
+  </div>
+</template> -->
+
+<template name="cameraControls">
+  <div id="ptz-controls-panel" class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title pull-left">Camera PTZ Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><button type="button" id="{{name}}" title="{{name}}" class="lock btn btn-default btn-xs pull-right">{{name}}</button><div class="clearfix"></div>
+    </div>
+    <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
+      <!-- row 1 -->
+      <div class="row">
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-left-up-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-left fa-rotate-45"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-up-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-up"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-right-up-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="left up"><i class="fa fa-arrow-up fa-rotate-45"></i></button>
+        </div>
+      </div>
+      <!-- row 2 -->
+      <div class="row">
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-left-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="Left"><i class="fa fa-arrow-left"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-home-button_{{name}}" class="btn peakaboo-ptz-home btn-default {{#if controlsLocked}}disabled{{/if}}" title="Home"><i class="fa fa-home"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-right-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="Right"><i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <!-- row 3 -->
+      <div class="row">
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-left-down-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="Left Down"><i class="fa fa-arrow-down fa-rotate-45"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-down-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="Down"><i class="fa fa-arrow-down"></i></button>
+        </div>
+        <div class="col-xs-4 text-center ptz-btn">
+          <button type="button" id="peakaboo-ptz-right-down-button_{{name}}" class="btn peakaboo-ptz btn-default {{#if controlsLocked}}disabled{{/if}}" title="Right Down"><i class="fa fa-arrow-right fa-rotate-45"></i></button>
+        </div>
+      </div>
+      <hr>
+      <div class="row text-center">
+        <button type="button" id="peakaboo-ptz-zoom-in-button_{{name}}" class="btn btn-default peakaboo-ptz peakaboo-ptz-zoom {{#if controlsLocked}}disabled{{/if}}" title="Zoom In"><i class="fa fa-plus"></i></button>
+        <button type="button" id="peakaboo-ptz-zoom-out-button_{{name}}" class="btn btn-default peakaboo-ptz peakaboo-ptz-zoom {{#if controlsLocked}}disabled{{/if}}" title="Zoom Out"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- REMOVE ROOM BUTTON  -->
+<!-- <template name="room_nav"> -->
+  <!-- <ul class="nav nav-pills"> -->
+    <!-- <li class="{{#if controls}}active{{/if}}"><a href="{{pathFor 'room_controls' _id=room._id}}" class="room_tab">Controls</a></li> -->
+    <!-- REMOVE BUTTON WITH CONFIRMATION MODAL  -->
+    <!-- <a id="peakaboo-remove-btn" title="Remove room" class="btn btn-danger room_tab" data-toggle="modal" data-target=".warn-modal-remove"><i class="glyphicon glyphicon-remove"></i> Remove Room</a>
+    <div class="modal fade warn-modal-remove">
+      <div class="modal-dialog">
+        <div class="modal-content panel-danger">
+          <div class="modal-header panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></button>
+            <h4 class="modal-title"><strong>Warning: Removing Room</strong></h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <a id="peakaboo-remove-room" type="button" class="btn btn-danger {{#if removeLocked}}{{else}}peakaboo-locked{{/if}}" href="{{#if removeLocked}}/{{else}}#{{/if}}">OK</a>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <li class="{{#if repository}}active{{/if}}"><a href="{{pathFor 'room_repository' _id=room._id}}" class="room_tab">Repository</a></li> -->
+  <!-- </ul> -->
+  <!-- <hr> -->
+<!-- </template> -->

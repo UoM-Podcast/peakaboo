@@ -1,41 +1,72 @@
-peakaboo:
-  build: ..
-  environment:
-    - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
-    - ROOT_URL=https://${SERVER_NAME}
-    - STARTUP_DELAY=10
-    - METEOR_SETTINGS
-  links:
-    - peakabooMongo
-  restart: on-failure
+version: "2"
+services:
 
-peakabooMongoSetup:
-  image: mongo:3
-  links:
-    - peakabooMongo
-  volumes:
-    - ./mongo:/scripts:ro
-  entrypoint: [ "/scripts/setupmongo" ]
+  peakaboo:
+    build: ..
+    environment:
+      - MONGO_URL=mongodb://mongos1:27017/peakaboo
+      - ROOT_URL=https://${SERVER_NAME}
+      - STARTUP_DELAY=10
+      - METEOR_SETTINGS
+    links:
+      - mongos1
+    restart: on-failure
 
-peakabooMongo:
-  image: mongo:3
-  volumes:
-    - ./mongo/db:/data/db
-  restart: on-failure
-  ports:
-    - "27017:27017"
+  mongors1n1:
+    container_name: mongors1n1
+    image: mongo:3.6.1-jessie
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth --shardsvr --port 27017
+    environment:
+      TERM: xterm
+    volumes:
+      - mongors1n1vol:/data/db
 
-peakabooNginx:
-  image: nginx
-  command: /scripts/startnginx
-  environment:
-    - SERVER_NAME
-  volumes:
-    - ./nginx:/tmp/nginx
-    - ./nginx/startnginx:/scripts/startnginx:ro
-  links:
-    - peakaboo
-  ports:
-    - "80:80"
-    - "443:443"
-  restart: on-failure
+  mongors2n1:
+    container_name: mongors2n1
+    image: mongo:3.6.1-jessie
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth --shardsvr --port 27017
+    environment:
+      TERM: xterm
+    volumes:
+      - mongors2n1vol:/data/db
+
+  mongocfg1:
+    container_name: mongocfg1
+    image: mongo:3.6.1-jessie
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --replSet mongorscfg --configsvr --noauth --port 27017
+    environment:
+      TERM: xterm
+    expose:
+         - "27017"
+    volumes:
+      - mongocfg1vol:/data/db
+
+  mongos1:
+    container_name: mongos1
+    image: mongo:3.6.1-jessie
+    depends_on:
+      - mongocfg1
+    command: mongos --configdb mongorscfg/mongocfg1:27017 --port 27017 --bind_ip 0.0.0.0
+    ports:
+        - 27017:27017
+
+  peakaboonginx:
+    build: https://github.com/androidwiltron/nginx-rtmp-docker.git
+    command: /scripts/startnginx
+    environment:
+      - SERVER_NAME
+    volumes:
+      - ./nginx:/tmp/nginx
+      - ./nginx/startnginx:/scripts/startnginx:ro
+    links:
+      - peakaboo
+    ports:
+      - "80:80"
+      - "443:443"
+      - "1935:1935"
+    restart: on-failure
+
+volumes:
+  mongors1n1vol:
+  mongors2n1vol:
+  mongocfg1vol:

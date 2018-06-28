@@ -10,7 +10,8 @@
   <div class="col-md-{{zoom}}">
     <div class="panel {{#if roomOffline heartbeat}}panel-danger{{else}}panel-default{{/if}}">
       <div class="panel-heading">
-        <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}"><button type="button" id="peakaboo-audio-stream" title="Listen" class="btn no-background {{#if audioStreaming}}btn-danger{{else}}btn-default{{/if}} btn-xs pull-left"><i class="glyphicon {{#if audioStreaming}}audiostreaming glyphicon-volume-up{{else}}glyphicon-headphones{{/if}}"></i></button><a href="{{pathFor 'room' _id}}">{{displayName}}</a>{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}{{#with metadata currentMediaPackage}}{{>rec}}{{/with}}{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
+        <h3 class="panel-title"><span data-toggle="tooltip" data-placement="auto" title="{{displayName}}{{#if roomOffline}} - Last seen: {{roomOffline.time}}{{/if}}"><a href="{{pathFor 'room' _id}}">{{displayName}}</a>{{#if roomOffline}}{{>offline}}{{/if}}</span>{{#if recording}}{{#with metadata currentMediaPackage}}{{>rec}}{{/with}}{{/if}}{{#if paused}}{{>paused}}{{/if}}</h3>
+        <!-- <button type="button" id="peakaboo-audio-stream" title="Listen" class="btn no-background {{#if audioStreaming}}btn-danger{{else}}btn-default{{/if}} btn-xs pull-left"><i class="glyphicon {{#if audioStreaming}}audiostreaming glyphicon-volume-up{{else}}glyphicon-headphones{{/if}}"></i></button> -->
       </div>
       <div class="panel-body">
         <a href="{{pathFor 'room' _id}}" class="thumbnail">

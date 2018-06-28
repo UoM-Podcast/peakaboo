@@ -1,10 +1,10 @@
-Session.setDefault 'view', 'view-galicaster'
+Session.setDefault 'view', 'view-Camera_1'
 Session.setDefault 'zoom', 3
 Session.setDefault 'showVumeter', false
 Session.set 'search-query'
 
 minZoom = 1
-maxZoom = 4
+maxZoom = 6
 
 resetFilters = ->
   $('#peakaboo-filter-clear').addClass 'disabled'

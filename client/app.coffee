@@ -93,10 +93,14 @@ Template.registerHelper 'thumbnail', ->
   switch Session.get 'view'
     when 'view-presentation'
       file = 'presentation'
-    when 'view-camera'
-      file = 'presenter'
+    # when 'view-camera'
+    #   file = 'presenter'
     when 'view-galicaster'
       file = 'galicaster'
+    when 'view-Camera_1'
+      file = 'Camera_1'
+    when 'view-Camera_2'
+      file = 'Camera_2'
 
   if images?[file]
     "/image/#{roomId}/#{file}?#{timestamp}"
