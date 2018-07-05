@@ -56,16 +56,9 @@
               <h3 class="panel-title pull-left">Recorder Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><div class="clearfix"></div>
             </div>
             <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
-              <div class="row">
-                <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="fa fa-circle text-danger"></i></button>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-pause-button" class="btn peakaboo-transport {{#if paused}}btn-info{{else}}btn-default{{/if}} {{#if controlsDisable}}disabled{{/if}}" title="{{#if paused}}Continue Recording{{else}}Pause Recording{{/if}}"><i class="fa fa-pause"></i></button>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <button type="button" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="fa fa-stop"></i></button>
-                </div>
+              <div class="row text-center">
+                  <button type="button" style="margin:20px;" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="fa fa-circle text-danger"></i></button>
+                  <button type="button" style="margin:20px;" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="fa fa-stop"></i></button>
               </div>
               <hr>
               <div class="row text-center">
@@ -183,7 +176,7 @@
           <legend>Start Recording</legend>
 
           <!-- Appended Input-->
-          <div class="control-group">
+          <!-- <div class="control-group">
             <label class="control-label" for="rec-title">Title</label>
             <div class="controls">
               <div class="input-append">
@@ -191,9 +184,9 @@
                 <span class="add-on"></span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="control-group">
+          <!-- <div class="control-group">
             <label class="control-label">Sources</label>
             <div class="controls">
               <div class="radio">
@@ -211,30 +204,29 @@
               </div>
               {{/if}}
             </div>
-          </div>
+          </div> -->
 
           <!-- Text input-->
-          <div class="control-group">
+          <!-- <div class="control-group">
             <label class="control-label" for="user-id">User ID</label>
             <div class="controls has-feedback">
               <input id="user-id" name="user-id" type="text" placeholder="User ID" class="form-control input-xlarge">
               {{#if waiting}}<span class="glyphicon glyphicon-refresh glyphicon-spin form-control-feedback"></span>{{/if}}
               {{#if error}}<span class="glyphicon glyphicon-remove form-control-feedback text-danger"></span>{{/if}}
-              <p class="help-block">Enter the ID of the user you want to own the recording or leave blank for nobody</p>
             </div>
-          </div>
+          </div> -->
 
-          {{#if userName}}
+          <!-- {{#if userName}}
           <div class="control-group peakaboo-userdetails">
             <label class="control-label" for="user-id">Name</label>
             <div class="controls">
               <p id="user-name" class="form-control-static">{{#if userPic}}<img class="img-circle" width="75px" src="{{userPic}}"> {{/if}}{{userName}}</p>
             </div>
           </div>
-          {{/if}}
+          {{/if}} -->
 
           <!-- Select Basic -->
-          {{#if modules}}
+          <!-- {{#if modules}}
           <div class="control-group peakaboo-userdetails">
             <label class="control-label" for="module-id">Module</label>
             <div class="controls">
@@ -245,13 +237,13 @@
               </select>
             </div>
           </div>
-          {{/if}}
+          {{/if}} -->
 
           </fieldset>
           </form>
         </div>
         <div class="modal-footer">
-          <button id="recordModalOk" type="button" class="btn btn-danger" {{disabled}}>Start Recording</button>
+          <button id="recordModalOk" type="button" class="btn btn-danger" >Start Recording</button> <!-- {{disabled}} -->
           <button id="recordModalCancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       </div>
