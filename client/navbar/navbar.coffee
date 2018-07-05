@@ -12,6 +12,8 @@ resetFilters = ->
   $('.peakaboo-filter input').prop 'checked', false
 
 Template.navbar.events
+  'click #signout': (e) ->
+    Meteor.logout()
   'keyup input#search, click button#searchReset': (e) ->
     Session.set 'search-query', e.currentTarget.value
   'keydown input#search': (e) ->
