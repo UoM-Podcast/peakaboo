@@ -14,7 +14,6 @@ http@1.4.0
 peerlibrary:xml2js
 pmgration:bootstrap-slider
 tmeasday:publish-counts
-atoy40:accounts-cas
 standard-minifier-css@1.4.0
 standard-minifier-js@2.3.1
 shell-server@0.3.1
@@ -31,3 +30,4 @@ stylus
 accounts-password
 ian:accounts-ui-bootstrap-3
 twbs:bootstrap
+xaionaro:accounts-cas
