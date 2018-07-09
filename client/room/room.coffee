@@ -25,17 +25,26 @@ Template.room_controls.events
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' pressed'
-    Rooms.update room._id, {$set: {ptzmove: move_id}}
+    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
+      # Handle the error or response here.
+      return
+    # Rooms.update room._id, {$set: {ptzmove: move_id}}
   'mouseup .peakaboo-ptz': (e, template) ->
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' released'
-    Rooms.update room._id, {$set: {ptzmove: false}}
+    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + false, {}, (error, response) ->
+      # Handle the error or response here.
+      return
+    # Rooms.update room._id, {$set: {ptzmove: false}}
   'click .peakaboo-ptz-home': (e, template) ->
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' pressed'
-    Rooms.update room._id, {$set: {ptzmove: move_id}}
+    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
+      # Handle the error or response here.
+      return
+    # Rooms.update room._id, {$set: {ptzmove: move_id}}
   'click #peakaboo-pause-button': (e, template) ->
     room = template.data.room
     newState = not room.paused
