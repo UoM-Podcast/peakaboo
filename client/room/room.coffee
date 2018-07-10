@@ -25,26 +25,29 @@ Template.room_controls.events
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' pressed'
-    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
+    # HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
       # Handle the error or response here.
-      return
-    # Rooms.update room._id, {$set: {ptzmove: move_id}}
+      # return
+    full_move_data = move_id + '_' + moment().valueOf()
+    Rooms.update room._id, {$set: {ptzmove: full_move_data}}
   'mouseup .peakaboo-ptz': (e, template) ->
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' released'
-    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + false, {}, (error, response) ->
+    # HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + false, {}, (error, response) ->
       # Handle the error or response here.
-      return
-    # Rooms.update room._id, {$set: {ptzmove: false}}
+      # return
+    full_move_data = false + '_' + moment().valueOf()
+    Rooms.update room._id, {$set: {ptzmove: full_move_data}}
   'click .peakaboo-ptz-home': (e, template) ->
     room = template.data.room
     move_id = e.currentTarget.id
     console.log move_id + ' pressed'
-    HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
+    # HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + move_id, {}, (error, response) ->
       # Handle the error or response here.
-      return
-    # Rooms.update room._id, {$set: {ptzmove: move_id}}
+      # return
+    full_move_data = move_id + '_' + moment().valueOf()
+    Rooms.update room._id, {$set: {ptzmove: full_move_data}}
   'click #peakaboo-pause-button': (e, template) ->
     room = template.data.room
     newState = not room.paused
