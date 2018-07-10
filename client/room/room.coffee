@@ -30,15 +30,15 @@ Template.room_controls.events
       # return
     full_move_data = move_id + '_' + moment().valueOf()
     Rooms.update room._id, {$set: {ptzmove: full_move_data}}
-  'mouseup .peakaboo-ptz': (e, template) ->
-    room = template.data.room
-    move_id = e.currentTarget.id
-    console.log move_id + ' released'
-    # HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + false, {}, (error, response) ->
-      # Handle the error or response here.
-      # return
-    full_move_data = false + '_' + moment().valueOf()
-    Rooms.update room._id, {$set: {ptzmove: full_move_data}}
+  # 'mouseup .peakaboo-ptz': (e, template) ->
+  #   room = template.data.room
+  #   move_id = e.currentTarget.id
+  #   console.log move_id + ' released'
+  #   # HTTP.call 'GET', 'http://' + room.ip + ':' + room.ptzPort + '/move/' + false, {}, (error, response) ->
+  #     # Handle the error or response here.
+  #     # return
+  #   full_move_data = false + '_' + moment().valueOf()
+  #   Rooms.update room._id, {$set: {ptzmove: full_move_data}}
   'click .peakaboo-ptz-home': (e, template) ->
     room = template.data.room
     move_id = e.currentTarget.id
