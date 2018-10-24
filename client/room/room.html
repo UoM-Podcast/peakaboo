@@ -57,13 +57,13 @@
             </div>
             <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
               <div class="row text-center">
-                  <button type="button" style="margin:20px;" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="fa fa-circle text-danger"></i></button>
-                  <button type="button" style="margin:20px;" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="fa fa-stop"></i></button>
+                  <button type="button" style="margin:20px;" id="peakaboo-rec-button" data-toggle="modal" data-target="#recordmodal" class="btn peakaboo-transport {{#if recording}}btn-danger{{else}}btn-default{{/if}} {{#if recControlsDisable}}disabled{{/if}}" title="Start Recording"><i class="fa fa-2x fa-circle text-danger"></i></button>
+                  <button type="button" style="margin:20px;" id="peakaboo-stop-button" class="btn btn-default peakaboo-transport {{#if controlsDisable}}disabled{{/if}}" title="Stop Recording"><i class="fa fa-2x fa-stop"></i></button>
               </div>
               <hr>
               <div class="row text-center">
-                <button type="button" data-toggle="modal" data-target="#mymodal" data-action="restart" data-title="Restart galicaster" data-message="Are you sure you want to restart galicaster on <b>{{displayName}}</b>?" data-confirm="Restart" class="btn btn-warning peakaboo-command {{#if controlsLocked}}disabled{{/if}}">Restart galicaster</button>
-                <button type="button" data-toggle="modal" data-target="#mymodal" data-action="reboot" data-title="Reboot machine" data-message="Are you sure you want to reboot <b>{{displayName}}</b>?" data-confirm="Reboot" class="btn btn-danger peakaboo-command {{#if controlsLocked}}disabled{{/if}}">Reboot machine</button>
+                <button type="button" data-toggle="modal" data-target="#mymodal" data-action="restart" data-title="Restart galicaster" data-message="Are you sure you want to restart galicaster on <b>{{displayName}}</b>?" data-confirm="Restart" class="btn btn-default peakaboo-command {{#if controlsLocked}}disabled{{/if}}">Restart galicaster</button>
+                <button type="button" data-toggle="modal" data-target="#mymodal" data-action="reboot" data-title="Reboot machine" data-message="Are you sure you want to reboot <b>{{displayName}}</b>?" data-confirm="Reboot" class="btn btn-default peakaboo-command {{#if controlsLocked}}disabled{{/if}}">Reboot machine</button>
               </div>
             </div>
           </div>
@@ -280,7 +280,7 @@
 <template name="cameraControls">
   <div id="ptz-controls-panel" class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title pull-left">Camera PTZ Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><button type="button" id="peakaboo-ptz-privacy-button_{{name}}" title="Enable Privacy Mode" class="btn peakaboo-ptz btn-default btn-xs pull-right">Privacy Mode <i class="fa fa-eye-slash"></i></button><button type="button" id="{{name}}" title="{{name}}" class="lock btn btn-default btn-xs pull-right">{{name}}</button><div class="clearfix"></div>
+      <h3 class="panel-title pull-left">Camera PTZ Controls</h3><button type="button" id="peakaboo-controls-lock"  title="Unlock Controls Panel" class="lock btn {{#if controlsLocked}}btn-success{{else}}btn-danger{{/if}} btn-xs pull-right"><i class="fa {{#if controlsLocked}}fa-lock{{else}}fa-unlock-alt{{/if}}"></i></button><button type="button" id="peakaboo-ptz-privacy-button_{{name}}" title="Enable Privacy Mode" class="btn peakaboo-ptz btn-info btn-xs pull-right">Privacy Mode <i class="fa fa-eye-slash"></i></button><button type="button" id="{{name}}" title="{{name}}" class="lock btn btn-default btn-xs pull-right">{{name}}</button><div class="clearfix"></div>
     </div>
     <div class="panel-body peakaboo-controls lockable {{#if controlsLocked}}peakaboo-locked{{/if}}" data-lock="peakaboo-controls-lock">
       <!-- row 1 -->
