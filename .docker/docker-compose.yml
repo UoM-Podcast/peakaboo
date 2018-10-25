@@ -1,23 +1,21 @@
-version: "2"
+version: "2.3"
 services:
   peakaboo:
-    build: ..
+    build:
+      context: ..
+      args:
+        - http_proxy
+        - https_proxy
     environment:
       - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
       - ROOT_URL=https://${SERVER_NAME}
       - STARTUP_DELAY=10
       - METEOR_SETTINGS
+      - https_proxy
+      - http_proxy
     links:
       - peakabooMongo
     restart: always
-
-  # peakabooMongoSetup:
-  #   image: mongo:3
-  #   links:
-  #     - peakabooMongo
-  #   volumes:
-  #     - ./mongo:/scripts:ro
-  #   entrypoint: [ "/scripts/setupmongo" ]
 
   peakabooMongo:
     image: mongo:3
