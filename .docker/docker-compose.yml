@@ -9,7 +9,7 @@ services:
       - METEOR_SETTINGS
     links:
       - peakabooMongo
-    restart: on-failure
+    restart: always
 
   # peakabooMongoSetup:
   #   image: mongo:3
@@ -23,7 +23,7 @@ services:
     image: mongo:3
     volumes:
       - mongovol1:/data/db
-    restart: on-failure
+    restart: always
     ports:
       - "27017:27017"
 
@@ -40,7 +40,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart: on-failure
+    restart: always
 
 volumes:
   mongovol1:
