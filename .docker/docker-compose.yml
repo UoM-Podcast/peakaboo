@@ -1,41 +1,46 @@
-peakaboo:
-  build: ..
-  environment:
-    - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
-    - ROOT_URL=https://${SERVER_NAME}
-    - STARTUP_DELAY=10
-    - METEOR_SETTINGS
-  links:
-    - peakabooMongo
-  restart: on-failure
+version: "2"
+services:
+  peakaboo:
+    build: ..
+    environment:
+      - MONGO_URL=mongodb://peakabooMongo:27017/peakaboo
+      - ROOT_URL=https://${SERVER_NAME}
+      - STARTUP_DELAY=10
+      - METEOR_SETTINGS
+    links:
+      - peakabooMongo
+    restart: on-failure
 
-peakabooMongoSetup:
-  image: mongo:3
-  links:
-    - peakabooMongo
-  volumes:
-    - ./mongo:/scripts:ro
-  entrypoint: [ "/scripts/setupmongo" ]
+  # peakabooMongoSetup:
+  #   image: mongo:3
+  #   links:
+  #     - peakabooMongo
+  #   volumes:
+  #     - ./mongo:/scripts:ro
+  #   entrypoint: [ "/scripts/setupmongo" ]
 
-peakabooMongo:
-  image: mongo:3
-  volumes:
-    - ./mongo/db:/data/db
-  restart: on-failure
-  ports:
-    - "27017:27017"
+  peakabooMongo:
+    image: mongo:3
+    volumes:
+      - mongovol1:/data/db
+    restart: on-failure
+    ports:
+      - "27017:27017"
 
-peakabooNginx:
-  image: nginx
-  command: /scripts/startnginx
-  environment:
-    - SERVER_NAME
-  volumes:
-    - ./nginx:/tmp/nginx
-    - ./nginx/startnginx:/scripts/startnginx:ro
-  links:
-    - peakaboo
-  ports:
-    - "80:80"
-    - "443:443"
-  restart: on-failure
+  peakabooNginx:
+    image: nginx
+    command: /scripts/startnginx
+    environment:
+      - SERVER_NAME
+    volumes:
+      - ./nginx:/tmp/nginx
+      - ./nginx/startnginx:/scripts/startnginx:ro
+    links:
+      - peakaboo
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: on-failure
+
+volumes:
+  mongovol1:
